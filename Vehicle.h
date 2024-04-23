@@ -17,5 +17,6 @@ public:
 	~Vehicle();
 	void Update(float dt);
 	void Draw();
+	Vector2 GetPosition();
 };
 

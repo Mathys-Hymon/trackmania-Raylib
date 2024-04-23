@@ -9,9 +9,12 @@ int main() {
 
     Vehicle car(Vector2{200,200}, Vector2{30,60}, 45);
 
+
     while (!WindowShouldClose()) {
+        std::cout << car.GetPosition().x;
         BeginDrawing();
         car.Draw();
+        car.Update(GetFrameTime());
         ClearBackground(GRAY);
         EndDrawing();
     }
