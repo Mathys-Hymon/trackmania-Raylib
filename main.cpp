@@ -1,18 +1,18 @@
 #include "raylib.h"
 #include <iostream>
-
-
+#include "Vehicle.h"
 
 int main() {
 
-    std::cout << "Hello World" << std::endl;
-
-    InitWindow(1000, 600, "Trackmania Raylib");
+    InitWindow(800, 800, "Trackmania Raylib");
     SetTargetFPS(60);
+
+    Vehicle car(Vector2{200,200}, Vector2{30,60}, 45);
 
     while (!WindowShouldClose()) {
         BeginDrawing();
-        ClearBackground(WHITE);
+        car.Draw();
+        ClearBackground(GRAY);
         EndDrawing();
     }
 
