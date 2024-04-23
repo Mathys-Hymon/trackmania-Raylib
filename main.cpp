@@ -1,19 +1,18 @@
 #include "raylib.h"
 #include <iostream>
 
-using namespace std;
+
 
 int main() {
 
-    
-    cout << "Hello World" << endl;
+    std::cout << "Hello World" << std::endl;
 
-    InitWindow(300, 300, "My first Raylib window!");
+    InitWindow(1000, 600, "Trackmania Raylib");
     SetTargetFPS(60);
 
     while (!WindowShouldClose()) {
         BeginDrawing();
-        ClearBackground(DARKGREEN);
+        ClearBackground(WHITE);
         EndDrawing();
     }
 
