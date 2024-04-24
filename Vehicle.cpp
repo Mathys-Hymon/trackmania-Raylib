@@ -24,18 +24,18 @@ void Vehicle::Update(float dt, float floorGrip)
     }
 
     if (IsKeyDown(KEY_UP) && IsKeyUp(KEY_SPACE)) {
-        speed += acceleration * dt * floorGrip;
-        if (speed > maxSpeed) {
-            speed = maxSpeed;
+        speed += acceleration * dt;
+        if (speed > maxSpeed * floorGrip) {
+            speed = maxSpeed * floorGrip;
         }
     }
     else if (IsKeyDown(KEY_DOWN) && IsKeyUp(KEY_SPACE)) {
-        speed -= acceleration * dt * floorGrip;
+        speed -= acceleration * dt;
         if (speed > 0) speed -= (acceleration)* dt * floorGrip;
-        if (speed < -maxSpeed / 2) speed = -maxSpeed / 2;
+        if (speed < -maxSpeed / 2) speed = (-maxSpeed * floorGrip) / 2 ;
     }
     else {
-        if (speed > 0) speed -= acceleration * dt * floorGrip;
+        if (speed > 0) speed -= acceleration * dt;
         else if (speed < 0) speed += acceleration * dt;
     }
 
@@ -82,7 +82,12 @@ void Vehicle::Draw()
 	DrawCircle(position.x, position.y, 5, RED);
 }
 
-Vector2 Vehicle::GetPosition()
+Rectangle Vehicle::GetPosition()
 {
-	return position;
+    return {position.x, position.y, size.x, size.y };
+}
+
+void Vehicle::setVehiclePosition(Vector2 newPos)
+{
+    position = newPos;
 }

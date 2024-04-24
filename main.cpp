@@ -1,6 +1,5 @@
 #include "raylib.h"
 #include <iostream>
-#include "Vehicle.h"
 #include "MapManager.h"
 
 int main() {
@@ -16,7 +15,7 @@ int main() {
     while (!WindowShouldClose()) {
         BeginDrawing();
         mapManager.Draw();
-        car.Update(GetFrameTime(), mapManager.FloorGrip(car.GetPosition()));
+        car.Update(GetFrameTime(), mapManager.FloorGrip(car));
 
         ClearBackground(GRAY);
 

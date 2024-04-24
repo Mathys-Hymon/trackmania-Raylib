@@ -1,6 +1,6 @@
 #include "Tile.h"
 
-Tile::Tile(Vector2 position, Vector2 size, TileType type /*, Texture& sprite*/) : position(position), size(size), type(type)/*, sprite(sprite)*/
+Tile::Tile(Vector2 position, Vector2 size, TileType type , Texture& sprite) : position(position), size(size), type(type), sprite(sprite)
 {
 }
 
@@ -13,13 +13,13 @@ float Tile::FloorGrip()
 	switch (type)
 	{
 	case ROAD:
-		return 1;
+		return 1.0f;
 		break;
 	case GRASS:
-		return 0.5f;
+		return 0.3f;
 		break;
 	case OBSTACLE:
-		return 0;
+		return 0.0f;
 		break;
 	default:
 		break;

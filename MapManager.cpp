@@ -14,6 +14,8 @@ void MapManager::Initialize()
 	Image mapImage = LoadImage(mapText.c_str());
 	Color* colors = LoadImageColors(mapImage);
 
+
+
 	float tileSize = GetScreenWidth() / (float)mapImage.height;
 
 	for (int y = 0; y < mapImage.height; y++) {
@@ -43,12 +45,26 @@ void MapManager::Draw()
 	}
 }
 
-float MapManager::FloorGrip(Vector2 position)
+float MapManager::FloorGrip(Vehicle& car)
 {
-	int GridPositionX = (position.x / (sizeof(Map) / sizeof(Map[0]))) / 2;
-	int GridPositionY = (position.y / (sizeof(Map) / sizeof(Map[0]))) / 2;
 
-	return Map[GridPositionY][GridPositionX]->FloorGrip();
+	int GridPositionX = (car.GetPosition().x / (sizeof(Map) / sizeof(Map[0]))) / 2;
+	int GridPositionY = (car.GetPosition().y / (sizeof(Map) / sizeof(Map[0]))) / 2;
+
+	float grip = Map[GridPositionY][GridPositionX]->FloorGrip();
+
+	if (grip == 0.0f)
+	{
+		// Calcule la position de la voiture après la collision
+		float tile_size = (float)sizeof(Map) / sizeof(Map[0]);
+
+		Vector2 new_position = { car.GetPosition().x - (car.GetPosition().width / 2) + (tile_size / 2), car.GetPosition().y - (car.GetPosition().height / 2) + (tile_size / 2) };
+
+		// Déplace la voiture à la nouvelle position
+		car.setVehiclePosition(new_position);
+	}
+
+	return grip;
 }
 
 void MapManager::Unload()
