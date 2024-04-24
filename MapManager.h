@@ -1,5 +1,8 @@
 #pragma once
 #include "Tile.h"
+#include <iostream>
+#include "raylib.h"
+#include <string>
 
 class MapManager
 {
@@ -13,6 +16,7 @@ public:
 	void Initialize();
 	void Update();
 	void Draw();
+	float FloorGrip(Vector2 position);
 	void Unload();
 };
 

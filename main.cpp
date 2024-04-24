@@ -15,10 +15,11 @@ int main() {
 
     while (!WindowShouldClose()) {
         BeginDrawing();
-
-        car.Update(GetFrameTime(), 1);
-        ClearBackground(GRAY);
         mapManager.Draw();
+        car.Update(GetFrameTime(), mapManager.FloorGrip(car.GetPosition()));
+
+        ClearBackground(GRAY);
+
         car.Draw();
         EndDrawing();
 

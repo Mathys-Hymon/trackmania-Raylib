@@ -10,23 +10,28 @@ MapManager::~MapManager()
 
 void MapManager::Initialize()
 {
-	float tileSize = GetScreenWidth() / 20.0f;
-	bool flipflop = false;
+	std::string mapText = "resources/maps/Map1.png";
+	Image mapImage = LoadImage(mapText.c_str());
+	Color* colors = LoadImageColors(mapImage);
 
-	for (int i = 0; i < 20; i++) {
-		flipflop = !flipflop;
-		for (int j = 0; j < 20; j++) {
-			if (flipflop) {
-				flipflop = false;
-				Map[i][j] = new Tile({ j * tileSize , i * tileSize }, { tileSize, tileSize }, GRASS);
+	float tileSize = GetScreenWidth() / (float)mapImage.height;
+
+	for (int y = 0; y < mapImage.height; y++) {
+		for (int x = 0; x < mapImage.width; x++) {
+
+			if (colors[y * mapImage.width + x].r == 255) {
+				Map[y][x] = new Tile({ x * tileSize , y * tileSize }, { tileSize, tileSize }, ROAD);
+			}
+			else if (colors[y * mapImage.width + x].g == 255) {
+				Map[y][x] = new Tile({ x * tileSize , y * tileSize }, { tileSize, tileSize }, GRASS);
 			}
 			else {
-				flipflop = true;
-				Map[i][j] = new Tile({ j * tileSize , i * tileSize }, { tileSize, tileSize }, ROAD);
+				Map[y][x] = new Tile({ x * tileSize , y * tileSize }, { tileSize, tileSize }, OBSTACLE);
 			}
-			
 		}
 	}
+
+	UnloadImage(mapImage);
 }
 
 void MapManager::Draw()
@@ -36,6 +41,14 @@ void MapManager::Draw()
 			Map[i][j]->Draw();
 		}
 	}
+}
+
+float MapManager::FloorGrip(Vector2 position)
+{
+	int GridPositionX = (position.x / (sizeof(Map) / sizeof(Map[0]))) / 2;
+	int GridPositionY = (position.y / (sizeof(Map) / sizeof(Map[0]))) / 2;
+
+	return Map[GridPositionY][GridPositionX]->FloorGrip();
 }
 
 void MapManager::Unload()
