@@ -15,7 +15,7 @@ private:
 public:
 	Vehicle(Vector2 position, Vector2 size, float initialRot);
 	~Vehicle();
-	void Update(float dt);
+	void Update(float dt, float floorGrip);
 	void Draw();
 	Vector2 GetPosition();
 };

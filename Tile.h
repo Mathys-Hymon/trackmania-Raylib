@@ -9,13 +9,14 @@ private:
 	Vector2 size;
 
 	TileType type;
-	Texture& sprite;
+	//Texture& sprite;
 
 public:
-	Tile(Vector2 position, Vector2 size, TileType type, Texture& sprite);
+	Tile(Vector2 position, Vector2 size, TileType type /*, texture& sprite*/);
 	~Tile();
 
 	float FloorGrip();
 	void Draw();
+	void Unload();
 };
 
