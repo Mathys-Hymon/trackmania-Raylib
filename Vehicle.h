@@ -11,6 +11,7 @@ private:
 	float acceleration;
 	float maxSpeed;
 	float rotationSpeed;
+	Texture sprite;
 
 public:
 	Vehicle(Vector2 position, Vector2 size, float initialRot);
@@ -19,6 +20,7 @@ public:
 	void Draw();
 	Rectangle GetPosition();
 	void setVehiclePosition(Vector2 newPos);
+	void Unload();
 
 };
 

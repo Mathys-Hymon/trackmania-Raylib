@@ -3,6 +3,7 @@
 
 Vehicle::Vehicle(Vector2 position, Vector2 size, float initialRot) : position(position), size(size), rotation(initialRot), rotationSpeed(10), acceleration(150), maxSpeed(350), speed(0)
 {
+    sprite = LoadTexture("resources/texture/car_2.png");
 }
 
 Vehicle::~Vehicle()
@@ -57,16 +58,16 @@ void Vehicle::Update(float dt, float floorGrip)
         position.x = GetScreenWidth() - size.x / 2;
     }
 
-    else if (position.y - size.y / 2 < 0) {
+    else if (position.y - size.y / 2 < 100) {
 
         speed = 0;
-        position.y = size.y / 2;
+        position.y = 100 + size.y / 2;
     }
 
-    else if (position.y + size.y / 2 > GetScreenHeight()) {
+    else if (position.y + size.y / 2 > GetScreenHeight() ) {
 
         speed = 0;
-        position.y = GetScreenWidth() - size.y / 2;
+        position.y = (GetScreenHeight()) - size.y / 2;
     }
     else {
 
@@ -78,8 +79,9 @@ void Vehicle::Update(float dt, float floorGrip)
 
 void Vehicle::Draw()
 {
-	DrawRectanglePro({ position.x,position.y,size.x,size.y }, {size.x/2,size.y/3}, rotation + 90, WHITE);
-	DrawCircle(position.x, position.y, 5, RED);
+	//DrawRectanglePro({ position.x,position.y,size.x,size.y }, {size.x/2,size.y/3}, rotation + 90, WHITE);
+    Vector2 spriteSize = { sprite.height, sprite.width };
+    DrawTexturePro(sprite, {0,0, spriteSize.y, spriteSize.x}, { position.x,position.y,size.x,size.y }, { size.x / 2,size.y / 3 }, rotation + 90, WHITE);
 }
 
 Rectangle Vehicle::GetPosition()
@@ -90,4 +92,9 @@ Rectangle Vehicle::GetPosition()
 void Vehicle::setVehiclePosition(Vector2 newPos)
 {
     position = newPos;
+}
+
+void Vehicle::Unload()
+{
+    UnloadTexture(sprite);
 }

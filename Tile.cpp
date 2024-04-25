@@ -1,6 +1,6 @@
 #include "Tile.h"
 
-Tile::Tile(Vector2 position, Vector2 size, TileType type , Texture& sprite) : position(position), size(size), type(type), sprite(sprite)
+Tile::Tile(Vector2 position, Vector2 size, TileType type , Texture sprite) : position(position), size(size), type(type), sprite(sprite)
 {
 }
 
@@ -28,25 +28,18 @@ float Tile::FloorGrip()
 
 void Tile::Draw()
 {
-	Color tempColor = WHITE;
-	switch (type)
-	{
-	case ROAD:
-		tempColor = GRAY;
-		break;
-	case GRASS:
-		tempColor = GREEN;
-		break;
-	case OBSTACLE:
-		tempColor = BLUE;
-		break;
-	default:
-		break;
-	}
+	//DrawRectangleRec({position.x, position.y, size.x, size.y}, sprite);
+	//DrawTextureEx(sprite, position, 0, 0.31f, WHITE);
+	Vector2 spriteSize = { sprite.height, sprite.width };
+	DrawTexturePro(sprite, { 0,0,spriteSize.x,spriteSize.y }, {position.x,position.y, size.x, size.y }, {0,0}, 0, WHITE);
+}
 
-	DrawRectangleRec({position.x, position.y, size.x, size.y}, tempColor);
+float Tile::GetSize()
+{
+	return (float)sprite.height;
 }
 
 void Tile::Unload()
 {
+	UnloadTexture(sprite);
 }

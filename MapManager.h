@@ -9,9 +9,10 @@ class MapManager
 {
 private:
 	Tile* Map[20][20];
-	Texture2D RoadTexture;
-	Texture2D GrassTexture;
-	Texture2D ObstacleTexture;
+	Texture RoadTexture;
+	Texture GrassTexture;
+	Texture WaterTexture;
+	Texture FinishTexture;
 
 public:
 	MapManager();

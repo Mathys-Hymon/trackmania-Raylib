@@ -4,10 +4,10 @@
 
 int main() {
 
-    InitWindow(800, 800, "Trackmania Raylib");
+    InitWindow(1000, 1100, "Trackmania Raylib");
     SetTargetFPS(60);
 
-    Vehicle car(Vector2{200,200}, Vector2{15,30}, 45);
+    Vehicle car(Vector2{200,200}, Vector2{28,50}, 45);
     MapManager mapManager;
 
     mapManager.Initialize();
@@ -17,12 +17,15 @@ int main() {
         mapManager.Draw();
         car.Update(GetFrameTime(), mapManager.FloorGrip(car));
 
-        ClearBackground(GRAY);
+        ClearBackground(DARKGRAY);
 
         car.Draw();
         EndDrawing();
 
     }
+
+    mapManager.Unload();
+    car.Unload();
 
     CloseWindow();
     return 0;
