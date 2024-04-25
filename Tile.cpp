@@ -22,21 +22,52 @@ float Tile::FloorGrip()
 		return 0.0f;
 		break;
 	default:
+		return 1.0f;
 		break;
 	}
 }
 
 void Tile::Draw()
 {
-	//DrawRectangleRec({position.x, position.y, size.x, size.y}, sprite);
-	//DrawTextureEx(sprite, position, 0, 0.31f, WHITE);
 	Vector2 spriteSize = { sprite.height, sprite.width };
 	DrawTexturePro(sprite, { 0,0,spriteSize.x,spriteSize.y }, {position.x,position.y, size.x, size.y }, {0,0}, 0, WHITE);
+}
+
+bool Tile::CheckCollision()
+{
+	return false;
+}
+
+int Tile::CheckPointIndex()
+{
+	switch (type)
+	{
+	case FINISH:
+		return 0;
+		break;
+	case CHECKPOINT1:
+		return 1;
+		break;
+	case CHECKPOINT2:
+		return 2;
+		break;
+	case CHECKPOINT3:
+		return 3;
+		break;
+	default:
+		return -1;
+		break;
+	}
 }
 
 float Tile::GetSize()
 {
 	return (float)sprite.height;
+}
+
+TileType Tile::GetType()
+{
+	return type();
 }
 
 void Tile::Unload()

@@ -32,8 +32,8 @@ void Vehicle::Update(float dt, float floorGrip)
     }
     else if (IsKeyDown(KEY_DOWN) && IsKeyUp(KEY_SPACE)) {
         speed -= acceleration * dt;
-        if (speed > 0) speed -= (acceleration)* dt * floorGrip;
-        if (speed < -maxSpeed / 2) speed = (-maxSpeed * floorGrip) / 2 ;
+        if (speed > 0) speed -= (acceleration)* dt * floorGrip + 0.1f;
+        if (speed < (- maxSpeed / 2)*floorGrip ) speed = (-maxSpeed * floorGrip) / 2;
     }
     else {
         if (speed > 0) speed -= acceleration * dt;
@@ -79,19 +79,23 @@ void Vehicle::Update(float dt, float floorGrip)
 
 void Vehicle::Draw()
 {
-	//DrawRectanglePro({ position.x,position.y,size.x,size.y }, {size.x/2,size.y/3}, rotation + 90, WHITE);
     Vector2 spriteSize = { sprite.height, sprite.width };
     DrawTexturePro(sprite, {0,0, spriteSize.y, spriteSize.x}, { position.x,position.y,size.x,size.y }, { size.x / 2,size.y / 3 }, rotation + 90, WHITE);
 }
 
-Rectangle Vehicle::GetPosition()
+Vector2 Vehicle::collisionPos()
 {
-    return {position.x, position.y, size.x, size.y };
-}
+   
+     if (IsKeyDown(KEY_DOWN)) {
 
-void Vehicle::setVehiclePosition(Vector2 newPos)
-{
-    position = newPos;
+        float forwardX = cos(rotation * (PI / 180.0f));
+        float forwardY = sin(rotation * (PI / 180.0f));
+
+        return { position.x - forwardX * size.y/2,position.y - forwardY * size.y/2 };
+    }
+     else {
+         return { position.x,position.y };
+     }
 }
 
 void Vehicle::Unload()

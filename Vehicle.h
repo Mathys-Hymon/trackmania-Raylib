@@ -18,8 +18,7 @@ public:
 	~Vehicle();
 	void Update(float dt, float floorGrip);
 	void Draw();
-	Rectangle GetPosition();
-	void setVehiclePosition(Vector2 newPos);
+	Vector2 collisionPos();
 	void Unload();
 
 };

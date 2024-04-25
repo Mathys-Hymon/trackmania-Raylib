@@ -17,7 +17,10 @@ public:
 
 	float FloorGrip();
 	void Draw();
+	bool CheckCollision();
+	int CheckPointIndex();
 	float GetSize();
+	TileType GetType();
 	void Unload();
 };
 

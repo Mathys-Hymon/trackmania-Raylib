@@ -1,6 +1,6 @@
 #include "MapManager.h"
 
-MapManager::MapManager()
+MapManager::MapManager(Vehicle& car, hudManager& HUD) : car(car), HUD(HUD)
 {
 }
 
@@ -24,8 +24,22 @@ void MapManager::Initialize()
 		for (int x = 0; x < mapImage.width; x++) {
 
 			if (colors[y * mapImage.width + x].r == 255 && colors[y * mapImage.width + x].g == 255 && colors[y * mapImage.width + x].b == 255) {
-				Map[y][x] = new Tile({ x * tileSize ,100 + y * tileSize }, { tileSize, tileSize }, ROAD, FinishTexture);
+				Map[y][x] = new Tile({ x * tileSize ,100 + y * tileSize }, { tileSize, tileSize }, FINISH, FinishTexture);
 			}
+			else if (colors[y * mapImage.width + x].r > 0 && colors[y * mapImage.width + x].r < 255) {
+				int color = colors[y * mapImage.width + x].r;
+
+				if (color == 1) {
+					Map[y][x] = new Tile({ x * tileSize ,100 + y * tileSize }, { tileSize, tileSize }, CHECKPOINT1, RoadTexture);
+				}
+				else if (color == 2) {
+					Map[y][x] = new Tile({ x * tileSize ,100 + y * tileSize }, { tileSize, tileSize }, CHECKPOINT2, RoadTexture);
+				}
+				else if (color == 3) {
+					Map[y][x] = new Tile({ x * tileSize ,100 + y * tileSize }, { tileSize, tileSize }, CHECKPOINT3, RoadTexture);
+				}
+			}
+
 			else if (colors[y * mapImage.width + x].r == 255) {
 				Map[y][x] = new Tile({ x * tileSize ,100 + y * tileSize }, { tileSize, tileSize }, ROAD, RoadTexture);
 			}
@@ -41,6 +55,29 @@ void MapManager::Initialize()
 	UnloadImage(mapImage);
 }
 
+void MapManager::Update()
+{
+	DrawCircle(car.collisionPos().x, car.collisionPos().y, 4, RED);
+
+	int GridPositionX = (car.collisionPos().x / (GetScreenWidth() / (sizeof(Map) / sizeof(Map[0]))));
+	int GridPositionY = (car.collisionPos().y / (GetScreenHeight() / (sizeof(Map) / sizeof(Map[0]))));
+
+	TileType tile = Map[GridPositionX][GridPositionY]->GetType();
+	switch (tile)
+	{
+	case FINISH:
+		break;
+	case CHECKPOINT1:
+		break;
+	case CHECKPOINT2:
+		break;
+	case CHECKPOINT3:
+		break;
+	default:
+		break;
+	}
+}
+
 void MapManager::Draw()
 {
 	for (int i = 0; i < 20; i++) {
@@ -50,28 +87,12 @@ void MapManager::Draw()
 	}
 }
 
-float MapManager::FloorGrip(Vehicle& car)
+float MapManager::FloorGrip()
 {
+	int GridPositionX = (car.collisionPos().x / (GetScreenWidth() / (sizeof(Map) / sizeof(Map[0]))));
+	int GridPositionY = (car.collisionPos().y / (GetScreenHeight() / (sizeof(Map) / sizeof(Map[0]))));
 
-	int GridPositionX = (car.GetPosition().x / (GetScreenWidth() / (sizeof(Map) / sizeof(Map[0]))));
-	int GridPositionY = (car.GetPosition().y / (GetScreenHeight() / (sizeof(Map) / sizeof(Map[0]))));
-
-	std::cout << GridPositionX << std::endl;
-
-	float grip = Map[GridPositionY][GridPositionX]->FloorGrip();
-
-	if (grip == 0.0f)
-	{
-		// Calcule la position de la voiture après la collision
-		float tile_size = (float)sizeof(Map) / sizeof(Map[0]);
-
-		Vector2 new_position = { car.GetPosition().x - (car.GetPosition().width / 2) + (tile_size / 2), car.GetPosition().y - (car.GetPosition().height / 2) + (tile_size / 2) };
-
-		// Déplace la voiture à la nouvelle position
-		car.setVehiclePosition(new_position);
-	}
-
-	return grip;
+	return Map[GridPositionY - 1][GridPositionX]->FloorGrip();
 }
 
 void MapManager::Unload()
