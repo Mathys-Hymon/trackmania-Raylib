@@ -1,15 +1,21 @@
 #pragma once
+#include "raylib.h"
+#include <iostream>
+#include <string>
+
 class hudManager
 {
 private:
+	int lap;
+	int maxLap;
 	float timer;
 
 public:
-	hudManager();
+	hudManager(int maxLap);
 	~hudManager();
 
 	void AddLap();
-	void DisplayScreen(int index);
+	void DisplayedScreen(int index);
 	void Update();
 };
 

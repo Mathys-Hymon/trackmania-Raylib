@@ -58,10 +58,10 @@ void Vehicle::Update(float dt, float floorGrip)
         position.x = GetScreenWidth() - size.x / 2;
     }
 
-    else if (position.y - size.y / 2 < 100) {
+    else if (position.y - size.y / 2 < 0) {
 
         speed = 0;
-        position.y = 100 + size.y / 2;
+        position.y = size.y / 2;
     }
 
     else if (position.y + size.y / 2 > GetScreenHeight() ) {
@@ -85,16 +85,14 @@ void Vehicle::Draw()
 
 Vector2 Vehicle::collisionPos()
 {
-   
+    float forwardX = cos(rotation * (PI / 180.0f));
+    float forwardY = sin(rotation * (PI / 180.0f));
+
      if (IsKeyDown(KEY_DOWN)) {
-
-        float forwardX = cos(rotation * (PI / 180.0f));
-        float forwardY = sin(rotation * (PI / 180.0f));
-
         return { position.x - forwardX * size.y/2,position.y - forwardY * size.y/2 };
     }
      else {
-         return { position.x,position.y };
+         return { position.x + forwardX * size.y / 3,position.y + forwardY * size.y / 3 };
      }
 }
 

@@ -1,8 +1,6 @@
 #pragma once
 #include "Tile.h"
-#include <iostream>
 #include "raylib.h"
-#include <string>
 #include "Vehicle.h"
 #include "hudManager.h"
 
@@ -16,6 +14,7 @@ private:
 	Texture GrassTexture;
 	Texture WaterTexture;
 	Texture FinishTexture;
+	Texture CheckpointTexture;
 	Vehicle& car;
 	hudManager& HUD;
 

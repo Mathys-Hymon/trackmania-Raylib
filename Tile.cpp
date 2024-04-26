@@ -67,7 +67,7 @@ float Tile::GetSize()
 
 TileType Tile::GetType()
 {
-	return type();
+	return type;
 }
 
 void Tile::Unload()
