@@ -1,6 +1,6 @@
 #include "hudManager.h"
 
-hudManager::hudManager(int maxLap) : lap(0), maxLap(maxLap)
+hudManager::hudManager(int maxLap) : lap(0), maxLap(maxLap), screenIndex(0)
 {
 }
 
@@ -18,7 +18,12 @@ void hudManager::AddLap()
 
 void hudManager::DisplayedScreen(int index)
 {
-	switch (index)
+	screenIndex = index;
+}
+
+void hudManager::Update()
+{
+	switch (screenIndex)
 	{
 	case 1:    // MENU
 
@@ -37,8 +42,7 @@ void hudManager::DisplayedScreen(int index)
 	}
 }
 
-void hudManager::Update()
+int hudManager::getSreenIndex()
 {
-	std::string lapText = "lap : " + std::to_string(lap);
-	DrawText(lapText.c_str(), 50, 50, 20, WHITE);
+	return 5;
 }

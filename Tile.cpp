@@ -1,6 +1,6 @@
 #include "Tile.h"
 
-Tile::Tile(Vector2 position, Vector2 size, TileType type , Texture sprite) : position(position), size(size), type(type), sprite(sprite)
+Tile::Tile(Vector2 position, Vector2 size, TileType type , Texture sprite, Texture activatedSprite, float spriteRotation) : position(position), size(size), type(type), sprite(sprite), activatedSprite(activatedSprite), spriteRotation(spriteRotation)
 {
 }
 
@@ -27,10 +27,16 @@ float Tile::FloorGrip()
 	}
 }
 
-void Tile::Draw()
+void Tile::Draw(bool isActivated)
 {
 	Vector2 spriteSize = { sprite.height, sprite.width };
-	DrawTexturePro(sprite, { 0,0,spriteSize.x,spriteSize.y }, {position.x,position.y, size.x, size.y }, {0,0}, 0, WHITE);
+
+	if (isActivated) {
+		DrawTexturePro(activatedSprite, { 0,0,spriteSize.x,spriteSize.y }, { position.x,position.y, size.x, size.y }, { 0,0 }, spriteRotation, WHITE);
+	}
+	else {
+		DrawTexturePro(sprite, { 0,0,spriteSize.x,spriteSize.y }, { position.x,position.y, size.x, size.y }, { 0,0 }, spriteRotation, WHITE);
+	}
 }
 
 bool Tile::CheckCollision()

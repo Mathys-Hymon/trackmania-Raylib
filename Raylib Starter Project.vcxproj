@@ -134,6 +134,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="hudManager.cpp" />
+    <ClCompile Include="LevelEditor.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="Tile.cpp" />
@@ -141,6 +142,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="hudManager.h" />
+    <ClInclude Include="LevelEditor.h" />
     <ClInclude Include="MapManager.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TileType.h" />

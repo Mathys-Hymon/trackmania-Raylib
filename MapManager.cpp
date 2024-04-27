@@ -18,6 +18,7 @@ void MapManager::Initialize()
 	GrassTexture = LoadTexture("resources/texture/grass.png");
 	CheckpointTexture = LoadTexture("resources/texture/checkpoint.png");
 	WaterTexture = LoadTexture("resources/texture/Water.png");
+	CheckPointTextureA = LoadTexture("resources/texture/checkpointActivated.png");
 
 	float tileSize = GetScreenWidth() / (float)mapImage.height;
 
@@ -25,30 +26,30 @@ void MapManager::Initialize()
 		for (int x = 0; x < mapImage.width; x++) {
 
 			if (colors[y * mapImage.width + x].r == 255 && colors[y * mapImage.width + x].g == 255 && colors[y * mapImage.width + x].b == 255) {
-				Map[y][x] = new Tile({ x * tileSize , y * tileSize }, { tileSize, tileSize }, FINISH, FinishTexture);
+				Map[y][x] = new Tile({ x * tileSize , y * tileSize }, { tileSize, tileSize }, FINISH, FinishTexture, FinishTexture, 0);
 			}
 			else if (colors[y * mapImage.width + x].r > 0 && colors[y * mapImage.width + x].r < 255) {
 				int color = colors[y * mapImage.width + x].r;
 
 				if (color == 1) {
-					Map[y][x] = new Tile({ x * tileSize , y * tileSize }, { tileSize, tileSize }, CHECKPOINT1, CheckpointTexture);
+					Map[y][x] = new Tile({ x * tileSize , y * tileSize }, { tileSize, tileSize }, CHECKPOINT1, CheckpointTexture, CheckPointTextureA, 0);
 				}
 				else if (color == 2) {
-					Map[y][x] = new Tile({ x * tileSize , y * tileSize }, { tileSize, tileSize }, CHECKPOINT2, CheckpointTexture);
+					Map[y][x] = new Tile({ x * tileSize , y * tileSize }, { tileSize, tileSize }, CHECKPOINT2, CheckpointTexture, CheckPointTextureA,0);
 				}
 				else if (color == 3) {
-					Map[y][x] = new Tile({ x * tileSize , y * tileSize }, { tileSize, tileSize }, CHECKPOINT3, CheckpointTexture);
+					Map[y][x] = new Tile({ x * tileSize , y * tileSize }, { tileSize, tileSize }, CHECKPOINT3, CheckpointTexture, CheckPointTextureA,0);
 				}
 			}
 
 			else if (colors[y * mapImage.width + x].r == 255) {
-				Map[y][x] = new Tile({ x * tileSize ,y * tileSize }, { tileSize, tileSize }, ROAD, RoadTexture);
+				Map[y][x] = new Tile({ x * tileSize ,y * tileSize }, { tileSize, tileSize }, ROAD, RoadTexture, RoadTexture,0);
 			}
 			else if (colors[y * mapImage.width + x].g == 255) {
-				Map[y][x] = new Tile({ x * tileSize ,y * tileSize }, { tileSize, tileSize }, GRASS, GrassTexture);
+				Map[y][x] = new Tile({ x * tileSize ,y * tileSize }, { tileSize, tileSize }, GRASS, GrassTexture, RoadTexture,0);
 			}
 			else {
-				Map[y][x] = new Tile({ x * tileSize ,y * tileSize }, { tileSize, tileSize }, OBSTACLE, WaterTexture);
+				Map[y][x] = new Tile({ x * tileSize ,y * tileSize }, { tileSize, tileSize }, OBSTACLE, WaterTexture, RoadTexture,0);
 			}
 		}
 	}
@@ -58,14 +59,11 @@ void MapManager::Initialize()
 
 void MapManager::Update()
 {
-	DrawCircle(car.collisionPos().x, car.collisionPos().y, 4, RED);
-
 	int GridPositionX = (car.collisionPos().x / (GetScreenWidth() / (sizeof(Map) / sizeof(Map[0]))));
 	int GridPositionY = (car.collisionPos().y / (GetScreenHeight() / (sizeof(Map) / sizeof(Map[0]))));
 
-	TileType tile = Map[GridPositionY - 1][GridPositionX]->GetType();
+	TileType tile = Map[GridPositionY][GridPositionX]->GetType();
 
-	//std::cout << tile << std::endl;
 	switch (tile)
 	{
 	case FINISH:
@@ -76,19 +74,19 @@ void MapManager::Update()
 		break;
 	case CHECKPOINT1:
 		if (checkPointIndex == 0) {
-			std::cout << "checkpoint 1 passed" << std::endl;
+			std::cout << "checkpoint 1" << std::endl;
 			checkPointIndex = 1;
 		}
 		break;
 	case CHECKPOINT2:
 		if (checkPointIndex == 1) {
-			std::cout << "checkpoint 2 passed" << std::endl;
+			std::cout << "checkpoint 2" << std::endl;
 			checkPointIndex = 2;
 		}
 		break;
 	case CHECKPOINT3:
 		if (checkPointIndex == 2) {
-			std::cout << "checkpoint 3 passed" << std::endl;
+			std::cout << "checkpoint 3" << std::endl;
 			checkPointIndex = 3;
 		}
 		break;
@@ -101,7 +99,21 @@ void MapManager::Draw()
 {
 	for (int i = 0; i < 20; i++) {
 		for (int j = 0; j < 20; j++) {
-			Map[i][j]->Draw();
+
+			if (Map[i][j]->GetType() == CHECKPOINT1 && checkPointIndex >= 1) {
+
+				Map[i][j]->Draw(true);
+			}
+			else if (Map[i][j]->GetType() == CHECKPOINT2 && checkPointIndex >= 2) {
+				Map[i][j]->Draw(true);
+			}
+			else if (Map[i][j]->GetType() == CHECKPOINT3 && checkPointIndex >= 3) {
+				Map[i][j]->Draw(true);
+			}
+
+			else {
+				Map[i][j]->Draw(false);
+			}
 		}
 	}
 }
@@ -111,7 +123,6 @@ float MapManager::FloorGrip()
 	int GridPositionX = (car.collisionPos().x / (GetScreenWidth() / (sizeof(Map) / sizeof(Map[0]))));
 	int GridPositionY = (car.collisionPos().y / (GetScreenHeight() / (sizeof(Map) / sizeof(Map[0]))));
 
-	std::cout << Map[GridPositionY][GridPositionX]->FloorGrip() << std::endl;
 	return Map[GridPositionY][GridPositionX]->FloorGrip();
 }
 

@@ -15,6 +15,7 @@ private:
 	Texture WaterTexture;
 	Texture FinishTexture;
 	Texture CheckpointTexture;
+	Texture CheckPointTextureA;
 	Vehicle& car;
 	hudManager& HUD;
 

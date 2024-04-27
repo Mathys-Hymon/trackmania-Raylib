@@ -6,6 +6,7 @@
 class hudManager
 {
 private:
+	int screenIndex;
 	int lap;
 	int maxLap;
 	float timer;
@@ -17,5 +18,6 @@ public:
 	void AddLap();
 	void DisplayedScreen(int index);
 	void Update();
+	int getSreenIndex();
 };
 

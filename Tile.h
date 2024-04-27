@@ -8,15 +8,18 @@ private:
 	Vector2 position;
 	Vector2 size;
 
+	float spriteRotation;
+
 	TileType type;
 	Texture sprite;
+	Texture activatedSprite;
 
 public:
-	Tile(Vector2 position, Vector2 size, TileType type, Texture sprite);
+	Tile(Vector2 position, Vector2 size, TileType type, Texture sprite, Texture activatedSprite, float spriteRotation);
 	~Tile();
 
 	float FloorGrip();
-	void Draw();
+	void Draw(bool isActivated);
 	bool CheckCollision();
 	int CheckPointIndex();
 	float GetSize();

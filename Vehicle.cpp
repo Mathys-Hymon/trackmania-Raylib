@@ -31,13 +31,26 @@ void Vehicle::Update(float dt, float floorGrip)
         }
     }
     else if (IsKeyDown(KEY_DOWN) && IsKeyUp(KEY_SPACE)) {
-        speed -= acceleration * dt;
-        if (speed > 0) speed -= (acceleration)* dt * floorGrip + 0.1f;
-        if (speed < (- maxSpeed / 2)*floorGrip ) speed = (-maxSpeed * floorGrip) / 2;
+
+        if (floorGrip == 0) {
+            speed = 0;
+        }
+        else {
+            speed -= acceleration * dt;
+            if (speed > 0) speed -= (acceleration)*dt * floorGrip + 0.1f;
+            if (speed < (-maxSpeed / 2) * floorGrip) speed = (-maxSpeed * floorGrip) / 2;
+        }
+
     }
     else {
-        if (speed > 0) speed -= acceleration * dt;
-        else if (speed < 0) speed += acceleration * dt;
+        if (floorGrip == 0) {
+            speed = 0;
+        }
+        else {
+            if (speed > 0) speed -= acceleration * dt;
+            else if (speed < 0) speed += acceleration * dt;
+        }
+        
     }
 
     if (IsKeyDown(KEY_SPACE)) {
@@ -88,12 +101,23 @@ Vector2 Vehicle::collisionPos()
     float forwardX = cos(rotation * (PI / 180.0f));
     float forwardY = sin(rotation * (PI / 180.0f));
 
-     if (IsKeyDown(KEY_DOWN)) {
-        return { position.x - forwardX * size.y/2,position.y - forwardY * size.y/2 };
+    if ((int)speed != 0) {
+        if (speed < 0) {
+            return { position.x - forwardX * size.y / 2,position.y - forwardY * size.y / 2 };
+        }
+        else {
+            return { position.x + forwardX * size.y / 3,position.y + forwardY * size.y / 3 };
+        }
     }
-     else {
-         return { position.x + forwardX * size.y / 3,position.y + forwardY * size.y / 3 };
-     }
+    else {
+        if (IsKeyDown(KEY_DOWN)) {
+            return { position.x - forwardX * size.y / 2,position.y - forwardY * size.y / 2 };
+        }
+        else {
+            return { position.x + forwardX * size.y / 3,position.y + forwardY * size.y / 3 };
+        }
+    }
+    
 }
 
 void Vehicle::Unload()
