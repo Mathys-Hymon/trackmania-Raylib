@@ -1,6 +1,6 @@
 #include "hudManager.h"
 
-hudManager::hudManager(int maxLap) : lap(0), maxLap(maxLap), screenIndex(0)
+hudManager::hudManager(int maxLap) : lap(0), maxLap(maxLap), screenIndex(5), timer(0), tileDATA(RED, "")
 {
 }
 
@@ -37,6 +37,17 @@ void hudManager::Update()
 
 		break;
 
+	case 4:  //  LEVEL SELECTION
+
+		break;
+
+	case 5:  //  LEVEL EDITOR
+
+		DrawRectangle(880, 300, 50, 50, tileDATA.TileColor);
+		DrawText(tileDATA.Name.c_str(), 910 - (MeasureText(tileDATA.Name.c_str(), 20) /2), 360, 20, WHITE);
+
+		break;
+
 	default:
 		break;
 	}
@@ -44,5 +55,30 @@ void hudManager::Update()
 
 int hudManager::getSreenIndex()
 {
-	return 5;
+	return screenIndex;
+}
+
+bool hudManager::buttonClicked(Vector2 position, std::string text, Vector2 size)
+{
+	DrawRectangle(position.x, position.y, size.x + static_cast<float>(MeasureText(text.c_str(), 20)), size.y, BLUE);
+	DrawText(text.c_str(), position.x + size.x / 2, position.y + size.y / 3, 20, WHITE);
+
+	if (CheckCollisionPointRec(static_cast<Vector2>(GetMousePosition()), { position.x, position.y,size.x + static_cast<float>(MeasureText(text.c_str(), 20)), size.y})) {
+
+		DrawRectangle(position.x, position.y,size.x + static_cast<float>(MeasureText(text.c_str(), 20)), size.y, DARKBLUE);
+		DrawText(text.c_str(), position.x + size.x / 2, position.y + size.y / 3, 20, GRAY);
+		if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	return false;
+}
+
+void hudManager::ChangeTileData(TilesData newTile)
+{
+	tileDATA = newTile;
 }

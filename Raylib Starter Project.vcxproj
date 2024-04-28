@@ -138,6 +138,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="TilesData.cpp" />
     <ClCompile Include="Vehicle.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +146,7 @@
     <ClInclude Include="LevelEditor.h" />
     <ClInclude Include="MapManager.h" />
     <ClInclude Include="Tile.h" />
+    <ClInclude Include="TilesData.h" />
     <ClInclude Include="TileType.h" />
     <ClInclude Include="Vehicle.h" />
   </ItemGroup>

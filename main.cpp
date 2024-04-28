@@ -11,7 +11,7 @@ int main() {
     hudManager HUD(3);
     Vehicle car(Vector2{200,700}, Vector2{28,50}, 90);
     MapManager mapManager(car, HUD);
-    LevelEditor levelEditor(GetScreenWidth(), GetScreenHeight());
+    LevelEditor levelEditor(GetScreenWidth(), GetScreenHeight(), HUD);
 
 
     mapManager.Initialize();
@@ -22,7 +22,6 @@ int main() {
 
         BeginDrawing();
 
-        HUD.Update();
 
         switch (HUD.getSreenIndex())
         {
@@ -53,6 +52,7 @@ int main() {
             break;
         }
 
+        HUD.Update();
         EndDrawing();
 
     }

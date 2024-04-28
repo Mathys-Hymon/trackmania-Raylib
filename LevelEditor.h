@@ -1,27 +1,28 @@
 #pragma once
 #include "raylib.h"
 #include <string>
+#include <vector>
+#include "hudManager.h"
 
 class LevelEditor
 {
 public:
-    LevelEditor(int screenWidth, int screenHeight);
+    LevelEditor(int screenWidth, int screenHeight, hudManager& HUD);
     ~LevelEditor();
 
     void Update();
+    void Export();
 
 private:
-    void Export();
     void Draw();
 
+    const int screenWidth;
+    const int screenHeight;
 
+    hudManager& HUD;
     Color PixelColor[50][50];
-    int screenWidth;
-    int screenHeight;
     int gridSize = 20;
     Color brushColor;
-    Color colors[7];
-    std::
     std::string levelName;
     int mouseIndex = 0;
 };
