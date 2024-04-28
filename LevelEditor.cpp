@@ -46,7 +46,6 @@ void LevelEditor::Update()
             else {
                 mouseIndex = 0;
             }
-
         }
         else {
             if (mouseIndex - 1 >= 0) {

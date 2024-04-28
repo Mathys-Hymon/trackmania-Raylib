@@ -1,7 +1,7 @@
 #include "raylib.h"
 #include <iostream>
-#include "MapManager.h"
 #include "LevelEditor.h"
+#include "MapSelection.h"
 
 int main() {
 
@@ -11,24 +11,20 @@ int main() {
     hudManager HUD(3);
     Vehicle car(Vector2{200,700}, Vector2{28,50}, 90);
     MapManager mapManager(car, HUD);
+    MapSelection mapSelection(HUD, mapManager);
     LevelEditor levelEditor(GetScreenWidth(), GetScreenHeight(), HUD);
-
 
     mapManager.Initialize();
 
     while (!WindowShouldClose()) {
 
-        ClearBackground(DARKGRAY);
+        ClearBackground(RAYWHITE);
 
         BeginDrawing();
 
 
         switch (HUD.getSreenIndex())
         {
-        case 1:    // MENU
-
-            break;
-
         case 2:   // IN GAME
             mapManager.Draw();
             car.Update(GetFrameTime(), mapManager.FloorGrip());
@@ -42,7 +38,8 @@ int main() {
             break;
 
         case 4:  //  LEVEL SELECTION
-
+            mapSelection.SelectMap();
+            mapSelection.Update();
             break;
 
         case 5:  //  LEVEL EDITOR

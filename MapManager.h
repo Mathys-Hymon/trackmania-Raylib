@@ -10,6 +10,7 @@ private:
 	Tile* Map[20][20];
 	float floorGrip;
 	int checkPointIndex;
+	int mapIndex = -2;
 	Texture RoadTexture;
 	Texture GrassTexture;
 	Texture WaterTexture;
@@ -24,6 +25,7 @@ public:
 	~MapManager();
 
 	void Initialize();
+	void ChooseMap(Image mapImage);
 	void Update();
 	void Draw();
 	float FloorGrip();

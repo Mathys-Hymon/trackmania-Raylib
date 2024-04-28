@@ -108,6 +108,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)\raylib;$(SolutionDir)\raylib\external;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -137,6 +138,7 @@
     <ClCompile Include="LevelEditor.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapManager.cpp" />
+    <ClCompile Include="MapSelection.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TilesData.cpp" />
     <ClCompile Include="Vehicle.cpp" />
@@ -145,6 +147,7 @@
     <ClInclude Include="hudManager.h" />
     <ClInclude Include="LevelEditor.h" />
     <ClInclude Include="MapManager.h" />
+    <ClInclude Include="MapSelection.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="TilesData.h" />
     <ClInclude Include="TileType.h" />

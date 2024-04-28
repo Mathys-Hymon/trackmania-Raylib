@@ -1,6 +1,7 @@
 #pragma once
 #include "raylib.h"
 #include <iostream>
+#include <vector>
 #include <string>
 #include "TilesData.h"
 
@@ -27,5 +28,9 @@ public:
 	//level EditorFunctions
 
 	void ChangeTileData(TilesData newTile);
+
+	//show maps
+
+	bool ShowMaps(Vector2 position, float textSize, Texture image, std::string name);
 };
 

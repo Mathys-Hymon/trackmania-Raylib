@@ -1,6 +1,6 @@
 #include "hudManager.h"
 
-hudManager::hudManager(int maxLap) : lap(0), maxLap(maxLap), screenIndex(5), timer(0), tileDATA(RED, "")
+hudManager::hudManager(int maxLap) : lap(0), maxLap(maxLap), screenIndex(1), timer(0), tileDATA(RED, "")
 {
 }
 
@@ -23,13 +23,19 @@ void hudManager::DisplayedScreen(int index)
 
 void hudManager::Update()
 {
+	std::string lapText = "Laps : " + std::to_string(lap) + "/" + std::to_string(maxLap);
+
 	switch (screenIndex)
 	{
 	case 1:    // MENU
-
+		if (buttonClicked({ 500,500 }, "START", { 30,10 })) {
+			screenIndex = 2;
+		}
 		break;
 
 	case 2:   // IN GAME
+
+		DrawText(lapText.c_str(), 50, 50, 30, WHITE);
 
 		break;
 
@@ -81,4 +87,19 @@ bool hudManager::buttonClicked(Vector2 position, std::string text, Vector2 size)
 void hudManager::ChangeTileData(TilesData newTile)
 {
 	tileDATA = newTile;
+}
+
+bool hudManager::ShowMaps(Vector2 position, float textSize, Texture image, std::string name)
+{
+	DrawTexturePro(image, { position.x,position.y, (float)image.width, (float)image.height }, { position.x,position.y, 200,200 }, { 100,100 }, 0, WHITE);
+	//DrawTexture(image, position.x - image.width/2, position.y - image.height/2, WHITE);
+	DrawText(name.c_str(), position.x - MeasureText(name.c_str(), textSize), position.y - 70, textSize, BLACK);
+
+	if (CheckCollisionPointRec(GetMousePosition(),{ position.x, position.y, (float)image.width, (float)image.height }) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+	{
+		return true;
+	}
+	else {
+		return false;
+	}
 }

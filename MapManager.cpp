@@ -10,52 +10,56 @@ MapManager::~MapManager()
 
 void MapManager::Initialize()
 {
-	Image mapImage = LoadImage("resources/maps/Map1.png");
-	Color* colors = LoadImageColors(mapImage);
-	
 	RoadTexture = LoadTexture("resources/texture/road.png");
 	FinishTexture = LoadTexture("resources/texture/finish.png");
 	GrassTexture = LoadTexture("resources/texture/grass.png");
 	CheckpointTexture = LoadTexture("resources/texture/checkpoint.png");
 	WaterTexture = LoadTexture("resources/texture/Water.png");
 	CheckPointTextureA = LoadTexture("resources/texture/checkpointActivated.png");
+}
 
-	float tileSize = GetScreenWidth() / (float)mapImage.height;
+void MapManager::ChooseMap(Image mapImage)
+{
 
-	for (int y = 0; y < mapImage.height; y++) {
-		for (int x = 0; x < mapImage.width; x++) {
+		Color* colors = LoadImageColors(mapImage);
 
-			if (colors[y * mapImage.width + x].r == 255 && colors[y * mapImage.width + x].g == 255 && colors[y * mapImage.width + x].b == 255) {
-				Map[y][x] = new Tile({ x * tileSize , y * tileSize }, { tileSize, tileSize }, FINISH, FinishTexture, FinishTexture, 0);
-			}
-			else if (colors[y * mapImage.width + x].r > 0 && colors[y * mapImage.width + x].r < 255) {
-				int color = colors[y * mapImage.width + x].r;
+		float tileSize = GetScreenWidth() / (float)mapImage.height;
 
-				if (color == 1) {
-					Map[y][x] = new Tile({ x * tileSize , y * tileSize }, { tileSize, tileSize }, CHECKPOINT1, CheckpointTexture, CheckPointTextureA, 0);
+		for (int y = 0; y < mapImage.height; y++) {
+			for (int x = 0; x < mapImage.width; x++) {
+
+				if (colors[y * mapImage.width + x].r == 255 && colors[y * mapImage.width + x].g == 255 && colors[y * mapImage.width + x].b == 255) {
+					Map[y][x] = new Tile({ x * tileSize , y * tileSize }, { tileSize, tileSize }, FINISH, FinishTexture, FinishTexture, 0);
 				}
-				else if (color == 2) {
-					Map[y][x] = new Tile({ x * tileSize , y * tileSize }, { tileSize, tileSize }, CHECKPOINT2, CheckpointTexture, CheckPointTextureA,0);
-				}
-				else if (color == 3) {
-					Map[y][x] = new Tile({ x * tileSize , y * tileSize }, { tileSize, tileSize }, CHECKPOINT3, CheckpointTexture, CheckPointTextureA,0);
-				}
-			}
+				else if (colors[y * mapImage.width + x].r > 0 && colors[y * mapImage.width + x].r < 255) {
+					int color = colors[y * mapImage.width + x].r;
 
-			else if (colors[y * mapImage.width + x].r == 255) {
-				Map[y][x] = new Tile({ x * tileSize ,y * tileSize }, { tileSize, tileSize }, ROAD, RoadTexture, RoadTexture,0);
-			}
-			else if (colors[y * mapImage.width + x].g == 255) {
-				Map[y][x] = new Tile({ x * tileSize ,y * tileSize }, { tileSize, tileSize }, GRASS, GrassTexture, RoadTexture,0);
-			}
-			else {
-				Map[y][x] = new Tile({ x * tileSize ,y * tileSize }, { tileSize, tileSize }, OBSTACLE, WaterTexture, RoadTexture,0);
+					if (color == 1) {
+						Map[y][x] = new Tile({ x * tileSize , y * tileSize }, { tileSize, tileSize }, CHECKPOINT1, CheckpointTexture, CheckPointTextureA, 0);
+					}
+					else if (color == 2) {
+						Map[y][x] = new Tile({ x * tileSize , y * tileSize }, { tileSize, tileSize }, CHECKPOINT2, CheckpointTexture, CheckPointTextureA, 0);
+					}
+					else if (color == 3) {
+						Map[y][x] = new Tile({ x * tileSize , y * tileSize }, { tileSize, tileSize }, CHECKPOINT3, CheckpointTexture, CheckPointTextureA, 0);
+					}
+				}
+
+				else if (colors[y * mapImage.width + x].r == 255) {
+					Map[y][x] = new Tile({ x * tileSize ,y * tileSize }, { tileSize, tileSize }, ROAD, RoadTexture, RoadTexture, 0);
+				}
+				else if (colors[y * mapImage.width + x].g == 255) {
+					Map[y][x] = new Tile({ x * tileSize ,y * tileSize }, { tileSize, tileSize }, GRASS, GrassTexture, RoadTexture, 0);
+				}
+				else {
+					Map[y][x] = new Tile({ x * tileSize ,y * tileSize }, { tileSize, tileSize }, OBSTACLE, WaterTexture, RoadTexture, 0);
+				}
 			}
 		}
-	}
 
-	UnloadImage(mapImage);
-}
+		HUD.DisplayedScreen(2);
+		mapIndex = -2;
+	}
 
 void MapManager::Update()
 {
@@ -128,15 +132,16 @@ float MapManager::FloorGrip()
 
 void MapManager::Unload()
 {
+	for (int i = 0; i < 20; i++) {
+		for (int j = 0; j < 20; j++) {
+			if (Map[i][j] != NULL) {
+				Map[i][j]->Unload();
+			}
+		}
+	}
 	UnloadTexture(RoadTexture);
 	UnloadTexture(GrassTexture);
 	UnloadTexture(WaterTexture);
 	UnloadTexture(FinishTexture);
 	UnloadTexture(CheckpointTexture);
-
-	for (int i = 0; i < 20; i++) {
-		for (int j = 0; j < 20; j++) {
-			Map[i][j]->Unload();
-		}
-	}
 }
