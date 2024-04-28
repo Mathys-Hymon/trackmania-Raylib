@@ -16,6 +16,9 @@ void MapManager::Initialize()
 	CheckpointTexture = LoadTexture("resources/texture/checkpoint.png");
 	WaterTexture = LoadTexture("resources/texture/Water.png");
 	CheckPointTextureA = LoadTexture("resources/texture/checkpointActivated.png");
+
+	Image mapImage = LoadImage("resources/maps/Map1.png");
+	ChooseMap(mapImage);
 }
 
 void MapManager::ChooseMap(Image mapImage)
@@ -57,7 +60,7 @@ void MapManager::ChooseMap(Image mapImage)
 			}
 		}
 
-		HUD.DisplayedScreen(2);
+		//HUD.DisplayedScreen(2);
 		mapIndex = -2;
 	}
 

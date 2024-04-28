@@ -24,23 +24,32 @@ void hudManager::DisplayedScreen(int index)
 void hudManager::Update()
 {
 	std::string lapText = "Laps : " + std::to_string(lap) + "/" + std::to_string(maxLap);
-
+	std::string timerText = TextFormat("%.2f", timer);
 	switch (screenIndex)
 	{
 	case 1:    // MENU
-		if (buttonClicked({ 500,500 }, "START", { 30,10 })) {
+		if (buttonClicked({ 380,500 }, "START", { 150,100 })) {
 			screenIndex = 2;
 		}
 		break;
 
 	case 2:   // IN GAME
-
+		timer += GetFrameTime();
 		DrawText(lapText.c_str(), 50, 50, 30, WHITE);
+		DrawText(timerText.c_str(), 850, 50, 30, WHITE);
 
 		break;
 
 	case 3:   // VICTORY / DEFEATE
+		DrawText("CONGRATULATIONS", 350, 200, 30, BLACK);
+		DrawText("YOUR TIME : ", 350, 270, 30, BLACK);
+		DrawText(timerText.c_str(), 580, 270, 30, BLACK);
 
+		if (buttonClicked({ 380,500 }, "RESTART", { 150,100 })) {
+			lap = 0;
+			timer = 0.0f;
+			screenIndex = 2;
+		}
 		break;
 
 	case 4:  //  LEVEL SELECTION

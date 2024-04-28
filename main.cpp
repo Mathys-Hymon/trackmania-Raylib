@@ -33,10 +33,6 @@ int main() {
             car.Draw();
             break;
 
-        case 3:   // VICTORY / DEFEATE
-
-            break;
-
         case 4:  //  LEVEL SELECTION
             mapSelection.SelectMap();
             mapSelection.Update();

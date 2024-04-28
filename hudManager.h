@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include "TilesData.h"
+#include <iomanip>
 
 class hudManager
 {
