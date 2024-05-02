@@ -16,7 +16,7 @@ int main() {
 
     mapManager.Initialize();
 
-    while (!WindowShouldClose()) {
+    while (!HUD.CloseGame()) {
 
         ClearBackground(RAYWHITE);
 
@@ -56,6 +56,7 @@ int main() {
 
     mapManager.Unload();
     car.Unload();
+    mapSelection.Unload();
 
     CloseWindow();
     return 0;

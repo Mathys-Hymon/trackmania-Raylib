@@ -12,6 +12,7 @@ private:
 	int lap;
 	int maxLap;
 	float timer;
+	bool exitApp = false;
 	TilesData tileDATA;
 
 public:
@@ -23,6 +24,7 @@ public:
 	void Update();
 	int getSreenIndex();
 	bool buttonClicked(Vector2 position, std::string text, Vector2 size);
+	bool CloseGame();
 
 
 	//level EditorFunctions
@@ -31,6 +33,6 @@ public:
 
 	//show maps
 
-	bool ShowMaps(Vector2 position, float textSize, Texture image, std::string name);
+	void ShowMaps(Vector2 position, float textSize, Texture& image, std::string name);
 };
 

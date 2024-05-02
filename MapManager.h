@@ -7,7 +7,7 @@
 class MapManager
 {
 private:
-	Tile* Map[20][20];
+	std::vector < std::vector<Tile*>> Map;
 	float floorGrip;
 	int checkPointIndex;
 	int mapIndex = -2;

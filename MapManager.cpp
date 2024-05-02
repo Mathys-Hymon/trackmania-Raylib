@@ -132,8 +132,8 @@ float MapManager::FloorGrip()
 
 void MapManager::Unload()
 {
-	for (int i = 0; i < 20; i++) {
-		for (int j = 0; j < 20; j++) {
+	for (int i = 0; i < Map.size(); i++) {
+		for (int j = 0; j < Map.size(); j++) {
 			if (Map[i][j] != NULL) {
 				Map[i][j]->Unload();
 			}

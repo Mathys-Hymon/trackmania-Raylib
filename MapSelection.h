@@ -5,20 +5,23 @@
 class MapSelection
 {
 private:
-	MapManager mapManager;
-	hudManager HUD;
+	MapManager& mapManager;
+	hudManager& HUD;
 
 	int mapIndex = -2;
+	int displayIndex = 0;
 	float delay = 0;
-	std::vector<Texture2D> mapTextures;
+	std::vector<Texture> mapTextures;
 	std::vector<std::string> mapNames;
 
+	void Draw();
 public:
-	MapSelection(hudManager& HUD, MapManager mapManager);
+	MapSelection(hudManager& HUD, MapManager& mapManager);
 	~MapSelection();
 
-	void Draw();
+
 	void Update();
 	void SelectMap();
+	void Unload();
 };
 

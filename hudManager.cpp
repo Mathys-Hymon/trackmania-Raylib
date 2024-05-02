@@ -28,8 +28,18 @@ void hudManager::Update()
 	switch (screenIndex)
 	{
 	case 1:    // MENU
-		if (buttonClicked({ 500,500 }, "START", { 30,10 })) {
-			screenIndex = 2;
+		if (buttonClicked({ 500,300 }, "START 1P", { 70,70 })) {
+			screenIndex = 4;
+		}
+		if (buttonClicked({ 500,450 }, "START 2P", { 70,70 })) {
+			screenIndex = 4;
+		}
+
+		if (buttonClicked({ 500,600 }, "LEVEL EDITOR", { 70,70 })) {
+			screenIndex = 5;
+		}
+		if (buttonClicked({ 500,750 }, "EXIT", { 70,70 })) {
+			exitApp = true;
 		}
 		break;
 
@@ -66,13 +76,13 @@ int hudManager::getSreenIndex()
 
 bool hudManager::buttonClicked(Vector2 position, std::string text, Vector2 size)
 {
-	DrawRectangle(position.x, position.y, size.x + static_cast<float>(MeasureText(text.c_str(), 20)), size.y, BLUE);
-	DrawText(text.c_str(), position.x + size.x / 2, position.y + size.y / 3, 20, WHITE);
+	DrawRectangle(position.x - (MeasureText(text.c_str(), 20) + size.x) /2, position.y, size.x + static_cast<float>(MeasureText(text.c_str(), 20)), size.y, BLUE);
+	DrawText(text.c_str(), position.x - (MeasureText(text.c_str(), 20)) / 2, position.y + size.y / 3, 20, WHITE);
 
-	if (CheckCollisionPointRec(static_cast<Vector2>(GetMousePosition()), { position.x, position.y,size.x + static_cast<float>(MeasureText(text.c_str(), 20)), size.y})) {
+	if (CheckCollisionPointRec(static_cast<Vector2>(GetMousePosition()), { position.x - (MeasureText(text.c_str(), 20) + size.x) /2, position.y,size.x + static_cast<float>(MeasureText(text.c_str(), 20)), size.y})) {
 
-		DrawRectangle(position.x, position.y,size.x + static_cast<float>(MeasureText(text.c_str(), 20)), size.y, DARKBLUE);
-		DrawText(text.c_str(), position.x + size.x / 2, position.y + size.y / 3, 20, GRAY);
+		DrawRectangle(position.x - (MeasureText(text.c_str(), 20) + size.x) /2, position.y,size.x + static_cast<float>(MeasureText(text.c_str(), 20)), size.y, DARKBLUE);
+		DrawText(text.c_str(),position.x - (MeasureText(text.c_str(), 20)) / 2, position.y + size.y / 3, 20, GRAY);
 		if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
 			return true;
 		}
@@ -84,22 +94,18 @@ bool hudManager::buttonClicked(Vector2 position, std::string text, Vector2 size)
 	return false;
 }
 
+bool hudManager::CloseGame()
+{
+	return exitApp;
+}
+
 void hudManager::ChangeTileData(TilesData newTile)
 {
 	tileDATA = newTile;
 }
 
-bool hudManager::ShowMaps(Vector2 position, float textSize, Texture image, std::string name)
+void hudManager::ShowMaps(Vector2 position, float textSize, Texture& image, std::string name)
 {
-	DrawTexturePro(image, { position.x,position.y, (float)image.width, (float)image.height }, { position.x,position.y, 200,200 }, { 100,100 }, 0, WHITE);
-	//DrawTexture(image, position.x - image.width/2, position.y - image.height/2, WHITE);
-	DrawText(name.c_str(), position.x - MeasureText(name.c_str(), textSize), position.y - 70, textSize, BLACK);
-
-	if (CheckCollisionPointRec(GetMousePosition(),{ position.x, position.y, (float)image.width, (float)image.height }) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
-	{
-		return true;
-	}
-	else {
-		return false;
-	}
+	DrawTexturePro(image, { 0,0, (float)image.width, (float)image.height }, { position.x,position.y, 200,200 }, { 100,100 }, 0, WHITE);
+	DrawText(name.c_str(),( position.x - MeasureText(name.c_str(), textSize) /2) + image.width / 2, position.y + 115, textSize, BLACK);
 }
