@@ -54,7 +54,9 @@ void hudManager::Update()
 		break;
 
 	case 4:  //  LEVEL SELECTION
-
+		if (IsKeyDown(KEY_TAB)) {
+			screenIndex = 1;
+		}
 		break;
 
 	case 5:  //  LEVEL EDITOR

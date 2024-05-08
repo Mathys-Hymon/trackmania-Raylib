@@ -38,7 +38,7 @@ void MapSelection::Update()
 {
 	Draw();
 
-	if (HUD.buttonClicked({ 430, 750 }, "<", { 20,30 }) || IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_Q)) {
+	if (HUD.buttonClicked({ 430, 750 }, "<", { 20,30 })) {
 		if (displayIndex - 1 < 0) {
 			displayIndex = mapTextures.size() - 1;
 		}
@@ -46,7 +46,7 @@ void MapSelection::Update()
 			displayIndex -= 1;
 		}
 	}
-	if (HUD.buttonClicked({ 540, 750 }, ">", { 20,30 }) || IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_D)) {
+	if (HUD.buttonClicked({ 540, 750 }, ">", { 20,30 })) {
 		if (displayIndex + 1 >= mapTextures.size()) {
 			displayIndex = 0;
 		}
@@ -55,18 +55,22 @@ void MapSelection::Update()
 		}
 	}
 
-	if (mapIndex > -1) {
+	if (IsKeyDown(KEY_ENTER) && mapIndex < 0) {
+		mapIndex = 0;
+	}
 
-		Image mapImage = LoadImageFromTexture(mapTextures[mapIndex]);
+	if (mapIndex >= 0 && mapIndex < mapTextures.size()) {
+
+		Image mapImage = LoadImageFromTexture(mapTextures[0]);
 
 		mapManager.ChooseMap(mapImage);
 
-		if (delay <= 3.0) {
+		if (delay <= 1.0) {
 			delay += GetFrameTime();
 		}
 		else {
 			HUD.DisplayedScreen(2);
-			mapIndex = -2;
+			//mapIndex = -2;
 		}
 
 	}

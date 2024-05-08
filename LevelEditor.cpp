@@ -61,14 +61,18 @@ void LevelEditor::Update()
                 mouseIndex = (int)tiles.size() - 1;
             }
         }
-        brushColor = tiles[mouseIndex].TileColor;
     }
     HUD.ChangeTileData(tiles[mouseIndex]);
+    brushColor = tiles[mouseIndex].TileColor;
 
+    std::string name = "level Name : " + levelName + ".png";
+    DrawText(name.c_str(), 350, 890, 20, WHITE);
 
-    std::string name = "level Name : " + levelName;
-    DrawText(name.c_str(), 350, 720, 20, WHITE);
     setName();
+
+    if (HUD.buttonClicked({ 350, 920 }, "EXPORT", { 150,50 }) && levelName.length() > 0) {
+        Export();
+    }
 }
 
 void LevelEditor::Export()
@@ -81,9 +85,20 @@ void LevelEditor::Export()
         }
     }
 
-    ExportImage(image, "resources/maps/level.png");
+    std::string directoryLink = "resources/maps/" + levelName + ".png";
+    ExportImage(image, directoryLink.c_str());
 
     UnloadImage(image);
+
+    delay = 0;
+
+    while (delay < 4)
+    {
+        delay += GetFrameTime();
+
+        std::string exportText = levelName + ".png has been successfully saved!";
+        DrawText(exportText.c_str(), 350, 920, 20, WHITE);
+    }
 }
 
 void LevelEditor::Draw()
@@ -113,7 +128,7 @@ void LevelEditor::setName()
 {
     int key = GetKeyPressed();
 
-    if (key != 0 || IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+    if (key != 0) {
         size_t len = levelName.length();
 
         if (key == KEY_BACKSPACE) {
@@ -121,12 +136,13 @@ void LevelEditor::setName()
                 levelName.pop_back();
             }
         }
-        else if (len < 8 && (key != KEY_ENTER && !IsMouseButtonPressed(MOUSE_LEFT_BUTTON))) {
+        else if (len < 8 && (key != KEY_ENTER) && (key != KEY_SPACE)) {
             levelName.push_back(static_cast<char>(key));
         }
 
-        else if (HUD.buttonClicked({ 350, 850 }, "EXPORT", { 150,50 })) {
-                Export();
+        else if ((key == KEY_SPACE)) {
+            levelName.push_back(static_cast<char>(KEY_MINUS));
         }
+
     }
 }
