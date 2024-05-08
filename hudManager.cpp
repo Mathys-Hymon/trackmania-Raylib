@@ -62,6 +62,10 @@ void hudManager::Update()
 		DrawRectangle(880, 300, 50, 50, tileDATA.TileColor);
 		DrawText(tileDATA.Name.c_str(), 910 - (MeasureText(tileDATA.Name.c_str(), 20) /2), 360, 20, WHITE);
 
+		if (IsKeyDown(KEY_TAB)) {
+			screenIndex = 1;
+		}
+
 		break;
 
 	default:

@@ -23,10 +23,16 @@ LevelEditor::~LevelEditor()
 {
 }
 
+float delay = 0;
+
 void LevelEditor::Update()
 {
     Draw();
 
+    if (delay < 0.1f) {
+        delay += GetFrameTime();
+        return;
+    }
     if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
 
         Vector2 mousePosition = GetMousePosition();
@@ -55,12 +61,14 @@ void LevelEditor::Update()
                 mouseIndex = (int)tiles.size() - 1;
             }
         }
-        HUD.ChangeTileData(tiles[mouseIndex]);
         brushColor = tiles[mouseIndex].TileColor;
     }
-    if (HUD.buttonClicked({ 350, 850 }, "EXPORT", { 150,50 })) {
-        Export();
-    }
+    HUD.ChangeTileData(tiles[mouseIndex]);
+
+
+    std::string name = "level Name : " + levelName;
+    DrawText(name.c_str(), 350, 720, 20, WHITE);
+    setName();
 }
 
 void LevelEditor::Export()
@@ -97,6 +105,28 @@ void LevelEditor::Draw()
 
 
             DrawRectangleLines(x * tileSize, y * tileSize, tileSize, tileSize, GRAY);
+        }
+    }
+}
+
+void LevelEditor::setName()
+{
+    int key = GetKeyPressed();
+
+    if (key != 0 || IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+        size_t len = levelName.length();
+
+        if (key == KEY_BACKSPACE) {
+            if (len > 0) {
+                levelName.pop_back();
+            }
+        }
+        else if (len < 8 && (key != KEY_ENTER && !IsMouseButtonPressed(MOUSE_LEFT_BUTTON))) {
+            levelName.push_back(static_cast<char>(key));
+        }
+
+        else if (HUD.buttonClicked({ 350, 850 }, "EXPORT", { 150,50 })) {
+                Export();
         }
     }
 }

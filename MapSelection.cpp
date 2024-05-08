@@ -38,7 +38,7 @@ void MapSelection::Update()
 {
 	Draw();
 
-	if (HUD.buttonClicked({ 430, 750 }, "<", { 20,30 })) {
+	if (HUD.buttonClicked({ 430, 750 }, "<", { 20,30 }) || IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_Q)) {
 		if (displayIndex - 1 < 0) {
 			displayIndex = mapTextures.size() - 1;
 		}
@@ -46,7 +46,7 @@ void MapSelection::Update()
 			displayIndex -= 1;
 		}
 	}
-	if (HUD.buttonClicked({ 540, 750 }, ">", { 20,30 })) {
+	if (HUD.buttonClicked({ 540, 750 }, ">", { 20,30 }) || IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_D)) {
 		if (displayIndex + 1 >= mapTextures.size()) {
 			displayIndex = 0;
 		}

@@ -14,6 +14,7 @@ public:
 
 private:
     void Draw();
+    void setName();
 
     const int screenWidth;
     const int screenHeight;
@@ -21,8 +22,7 @@ private:
     hudManager& HUD;
     Color PixelColor[50][50];
     int gridSize = 20;
-    Color brushColor;
     std::string levelName;
+    Color brushColor;
     int mouseIndex = 0;
 };
-

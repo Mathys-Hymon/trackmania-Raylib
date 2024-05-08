@@ -1,6 +1,7 @@
 #pragma once
 #include"MapManager.h"
 #include "filesystem"
+#include "raylib.h"
 
 class MapSelection
 {

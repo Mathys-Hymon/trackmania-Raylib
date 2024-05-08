@@ -18,7 +18,7 @@ int main() {
 
     while (!HUD.CloseGame()) {
 
-        ClearBackground(RAYWHITE);
+        ClearBackground(DARKGRAY);
 
         BeginDrawing();
 
