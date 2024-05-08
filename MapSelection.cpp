@@ -56,23 +56,12 @@ void MapSelection::Update()
 	}
 
 	if (IsKeyDown(KEY_ENTER) && mapIndex < 0) {
-		mapIndex = 0;
-	}
-
-	if (mapIndex >= 0 && mapIndex < mapTextures.size()) {
-
-		Image mapImage = LoadImageFromTexture(mapTextures[0]);
+		mapIndex = displayIndex;
+		std::string filePath = "resources/maps/" + mapNames[mapIndex] + ".png";
+		Image mapImage = LoadImage(filePath.c_str());
 
 		mapManager.ChooseMap(mapImage);
-
-		if (delay <= 1.0) {
-			delay += GetFrameTime();
-		}
-		else {
-			HUD.DisplayedScreen(2);
-			//mapIndex = -2;
-		}
-
+		UnloadImage(mapImage);
 	}
 }
 

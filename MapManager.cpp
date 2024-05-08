@@ -18,47 +18,47 @@ void MapManager::Initialize()
 	CheckPointTextureA = LoadTexture("resources/texture/checkpointActivated.png");
 }
 
-void MapManager::ChooseMap(Image mapImage)
+void MapManager::ChooseMap(Image mapImage_)
 {
+	Image mapImage = mapImage_;
+	Color* colors = LoadImageColors(mapImage);
 
-		Color* colors = LoadImageColors(mapImage);
+	float tileSize = GetScreenWidth() / (float)mapImage.height;
 
-		float tileSize = GetScreenWidth() / (float)mapImage.height;
+	for (int y = 0; y < mapImage.height; y++) {
+		for (int x = 0; x < mapImage.width; x++) {
 
-		for (int y = 0; y < mapImage.height; y++) {
-			for (int x = 0; x < mapImage.width; x++) {
+			if (colors[y * mapImage.width + x].r == 255 && colors[y * mapImage.width + x].g == 255 && colors[y * mapImage.width + x].b == 255) {
+				Map[y][x] = new Tile({ x * tileSize , y * tileSize }, { tileSize, tileSize }, FINISH, FinishTexture, FinishTexture, 0);
+			}
+			else if (colors[y * mapImage.width + x].r > 0 && colors[y * mapImage.width + x].r < 255) {
+				int color = colors[y * mapImage.width + x].r;
 
-				if (colors[y * mapImage.width + x].r == 255 && colors[y * mapImage.width + x].g == 255 && colors[y * mapImage.width + x].b == 255) {
-					Map[y][x] = new Tile({ x * tileSize , y * tileSize }, { tileSize, tileSize }, FINISH, FinishTexture, FinishTexture, 0);
+				if (color == 1) {
+					Map[y][x] = new Tile({ x * tileSize , y * tileSize }, { tileSize, tileSize }, CHECKPOINT1, CheckpointTexture, CheckPointTextureA, 0);
 				}
-				else if (colors[y * mapImage.width + x].r > 0 && colors[y * mapImage.width + x].r < 255) {
-					int color = colors[y * mapImage.width + x].r;
-
-					if (color == 1) {
-						Map[y][x] = new Tile({ x * tileSize , y * tileSize }, { tileSize, tileSize }, CHECKPOINT1, CheckpointTexture, CheckPointTextureA, 0);
-					}
-					else if (color == 2) {
-						Map[y][x] = new Tile({ x * tileSize , y * tileSize }, { tileSize, tileSize }, CHECKPOINT2, CheckpointTexture, CheckPointTextureA, 0);
-					}
-					else if (color == 3) {
-						Map[y][x] = new Tile({ x * tileSize , y * tileSize }, { tileSize, tileSize }, CHECKPOINT3, CheckpointTexture, CheckPointTextureA, 0);
-					}
+				else if (color == 2) {
+					Map[y][x] = new Tile({ x * tileSize , y * tileSize }, { tileSize, tileSize }, CHECKPOINT2, CheckpointTexture, CheckPointTextureA, 0);
 				}
-
-				else if (colors[y * mapImage.width + x].r == 255) {
-					Map[y][x] = new Tile({ x * tileSize ,y * tileSize }, { tileSize, tileSize }, ROAD, RoadTexture, RoadTexture, 0);
-				}
-				else if (colors[y * mapImage.width + x].g == 255) {
-					Map[y][x] = new Tile({ x * tileSize ,y * tileSize }, { tileSize, tileSize }, GRASS, GrassTexture, RoadTexture, 0);
-				}
-				else {
-					Map[y][x] = new Tile({ x * tileSize ,y * tileSize }, { tileSize, tileSize }, OBSTACLE, WaterTexture, RoadTexture, 0);
+				else if (color == 3) {
+					Map[y][x] = new Tile({ x * tileSize , y * tileSize }, { tileSize, tileSize }, CHECKPOINT3, CheckpointTexture, CheckPointTextureA, 0);
 				}
 			}
-		}
 
-		HUD.DisplayedScreen(2);
-		mapIndex = -2;
+			else if (colors[y * mapImage.width + x].r == 255) {
+				Map[y][x] = new Tile({ x * tileSize ,y * tileSize }, { tileSize, tileSize }, ROAD, RoadTexture, RoadTexture, 0);
+			}
+			else if (colors[y * mapImage.width + x].g == 255) {
+				Map[y][x] = new Tile({ x * tileSize ,y * tileSize }, { tileSize, tileSize }, GRASS, GrassTexture, RoadTexture, 0);
+			}
+			else {
+				Map[y][x] = new Tile({ x * tileSize ,y * tileSize }, { tileSize, tileSize }, OBSTACLE, WaterTexture, RoadTexture, 0);
+			}
+		}
+	}
+
+	//HUD.DisplayedScreen(2);
+	mapIndex = -2;
 	}
 
 void MapManager::Update()
