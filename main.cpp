@@ -26,7 +26,7 @@ int main() {
         switch (HUD.getSreenIndex())
         {
         case 2:   // IN GAME
-            //mapManager.Draw();
+            mapManager.Draw();
             car.Update(GetFrameTime(), mapManager.FloorGrip());
             mapManager.Update();
 

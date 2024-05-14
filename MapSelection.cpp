@@ -63,6 +63,13 @@ void MapSelection::Update()
 		mapManager.ChooseMap(mapImage);
 		UnloadImage(mapImage);
 	}
+	if (mapIndex >= 0 && delay < 0.5f) {
+		delay += GetFrameTime();
+	}
+	else if (delay > 0.5f) {
+		mapIndex = -2;
+		HUD.DisplayedScreen(2);
+	}
 }
 
 void MapSelection::SelectMap()

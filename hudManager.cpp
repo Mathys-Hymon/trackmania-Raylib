@@ -31,14 +31,10 @@ void hudManager::Update()
 		if (buttonClicked({ 500,300 }, "START 1P", { 70,70 })) {
 			screenIndex = 4;
 		}
-		if (buttonClicked({ 500,450 }, "START 2P", { 70,70 })) {
-			screenIndex = 4;
-		}
-
-		if (buttonClicked({ 500,600 }, "LEVEL EDITOR", { 70,70 })) {
+		if (buttonClicked({ 500,450 }, "LEVEL EDITOR", { 70,70 })) {
 			screenIndex = 5;
 		}
-		if (buttonClicked({ 500,750 }, "EXIT", { 70,70 })) {
+		if (buttonClicked({ 500,600 }, "EXIT", { 70,70 })) {
 			exitApp = true;
 		}
 		break;
